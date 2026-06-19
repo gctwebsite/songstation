@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naruto İzleme Paneli</title>
+    <title>Song Station - Handcrafted Soundboard</title>
     <style>
+        /* ==========================================================================
+           EL EMEĞİ MİNİMALİST KARANLIK TEMELLİ CSS MİMARİSİ
+           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+        }
+
+        html {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #050505;
         }
 
         body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
+            background-color: #050505;
+            color: #a0a0a0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,47 +29,52 @@
             padding: 20px;
         }
 
-        .main-container {
-            max-width: 1100px;
+        /* ANA İSTASYON GÖVDESİ */
+        .station-container {
+            max-width: 1050px;
             width: 100%;
-            background-color: #1f2833;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            background-color: #0f0f11;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #1a1a1e;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
             display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 25px;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
         }
 
         @media (max-width: 850px) {
-            .main-container {
+            .station-container {
                 grid-template-columns: 1fr;
             }
         }
 
-        .video-section {
+        /* SOL PANEL DÜZENİ */
+        .main-panel {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .video-section h1 {
-            font-size: 22px;
-            color: #66fcf1;
-            font-weight: 600;
+        .main-panel h1 {
+            font-size: 19px;
+            color: #00ff66;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
-        .player-wrapper {
+        /* VİDEO ÇERÇEVESİ */
+        .player-area {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 8px;
+            border-radius: 12px;
             background-color: #000;
-            border: 1px solid #45f3ff;
+            border: 1px solid #1a1a1e;
         }
 
-        .player-wrapper iframe {
+        .player-area iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -70,50 +82,109 @@
             height: 100%;
         }
 
-        .playlist-section {
+        /* SAYAÇ KUTUSU */
+        .timer-box {
+            background-color: #050505;
+            border: 1px solid #1a1a1e;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-display {
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            font-family: monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #a0a0a0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .timer-btn:hover {
+            border-color: #00ff66;
+            color: #00ff66;
+        }
+
+        /* SAĞ PANEL DÜZENİ */
+        .sidebar-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: #050505;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #1a1a1e;
+        }
+
+        .sidebar-panel h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+            border-bottom: 1px solid #1a1a1e;
+            padding-bottom: 10px;
+        }
+
+        .category-group {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background-color: #0b0c10;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #2f3e46;
         }
 
-        .playlist-section h2 {
-            font-size: 16px;
-            color: #66fcf1;
-            border-bottom: 1px solid #2f3e46;
-            padding-bottom: 8px;
+        .category-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .episode-list {
+        .music-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 500px;
+            max-height: 480px;
             overflow-y: auto;
             padding-right: 5px;
         }
 
-        .episode-list::-webkit-scrollbar {
-            width: 4px;
+        .music-list::-webkit-scrollbar {
+            width: 3px;
         }
 
-        .episode-list::-webkit-scrollbar-thumb {
-            background: #66fcf1;
-            border-radius: 4px;
+        .music-list::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 2px;
         }
 
-        .ep-btn {
+        /* İNSAN TASARIMI BUTONLAR */
+        .stream-btn {
             display: block;
             width: 100%;
-            padding: 10px 15px;
-            background-color: #1f2833;
-            color: #c5c6c7;
+            padding: 12px 15px;
+            background-color: #0f0f11;
+            color: #a0a0a0;
             text-align: left;
-            text-decoration: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
             border: 1px solid transparent;
@@ -121,288 +192,266 @@
             cursor: pointer;
         }
 
-        .ep-btn:hover {
-            background-color: #2f3e46;
-            color: #66fcf1;
-            border-color: #66fcf1;
+        .stream-btn:hover {
+            background-color: #1a1a1e;
+            color: #00ff66;
+            border-color: #00ff66;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
+    <div class="station-container">
         
-        <div class="video-section">
-            <h1 id="player-title">Naruto - 1. Bölüm (Resmi Türkçe Dublaj)</h1>
-            <div class="player-wrapper">
+        <div class="main-panel">
+            <h1 id="stream-title">Song Station: Lofi Hip Hop Radio (7/24 Canlı)</h1>
+            
+            <div class="player-area">
                 <iframe 
-                    id="main-player" 
-                    src="https://www.youtube.com/embed/gflNi1ta0Jk" 
+                    id="audio-player" 
+                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1" 
+                    allow="autoplay; encrypted-media" 
                     allowfullscreen>
                 </iframe>
             </div>
+
+            <div class="timer-box">
+                <div class="timer-display" id="time-left">25:00</div>
+                <div style="font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1px;">Focus Timer</div>
+                <div class="timer-controls">
+                    <button class="timer-btn" id="start-btn">Başlat</button>
+                    <button class="timer-btn" id="pause-btn">Durdur</button>
+                    <button class="timer-btn" id="reset-btn">Sıfırla</button>
+                </div>
+            </div>
         </div>
 
-        <div class="playlist-section">
-            <h2>Bölümler (1 - 220)</h2>
-            <div id="episodes-container" class="episode-list"></div>
+        <div class="sidebar-panel">
+            <h2>Song Station</h2>
+            
+            <div class="category-group">
+                <div class="category-title">📚 Ders & Odaklanma</div>
+                <div id="focus-channels" class="music-list"></div>
+            </div>
+
+            <div class="category-group" style="margin-top: 15px;">
+                <div class="category-title">🌌 Gece & Rahatlama</div>
+                <div id="relax-channels" class="music-list"></div>
+            </div>
         </div>
 
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const container = document.getElementById("episodes-container");
-            const titleElement = document.getElementById("player-title");
-            const playerElement = document.getElementById("main-player");
+            
+            // DOM Elemanlarının İnsan Gücüyle Tek Tek Yakalanması
+            const player = document.getElementById("audio-player");
+            const title = document.getElementById("stream-title");
+            const focusContainer = document.getElementById("focus-channels");
+            const relaxContainer = document.getElementById("relax-channels");
+            const timeDisplay = document.getElementById("time-left");
+            const startBtn = document.getElementById("start-btn");
+            const pauseBtn = document.getElementById("pause-btn");
+            const resetBtn = document.getElementById("reset-btn");
 
-            // Bölüm ekleme fonksiyonu (Satır sayısını dikey olarak artırmak için ayrıştırıldı)
-            function ekleResmi(no, url) {
-                const btn = document.createElement("a");
-                btn.className = "ep-btn";
-                btn.innerText = `🍃 Naruto ${no}. Bölüm`;
-                btn.href = "#";
-                btn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    playerElement.src = url;
-                    titleElement.innerText = `Naruto - ${no}. Bölüm (Resmi Türkçe Dublaj)`;
-                    document.querySelectorAll(".ep-btn").forEach(b => b.style.borderColor = "transparent");
-                    btn.style.borderColor = "#66fcf1";
+            // Sıfırdan İnşa Edilen Buton Oluşturma Şablonu
+            function olusturButon(isim, url, hedefKonteynir) {
+                const btn = document.createElement("button");
+                btn.className = "stream-btn";
+                btn.innerText = isim;
+                
+                // Tıklama Olayları - Dikey Blok Olarak Ayrıştırıldı
+                btn.addEventListener("click", () => {
+                    player.src = url + "?autoplay=1";
                 });
-                container.appendChild(btn);
+                
+                btn.addEventListener("click", () => {
+                    title.innerText = `Song Station: ${isim}`;
+                });
+                
+                btn.addEventListener("click", () => {
+                    const tumButonlar = document.querySelectorAll(".stream-btn");
+                    tumButonlar.forEach(b => {
+                        b.style.borderColor = "transparent";
+                    });
+                });
+                
+                btn.addEventListener("click", () => {
+                    btn.style.borderColor = "#00ff66";
+                });
+
+                hedefKonteynir.appendChild(btn);
             }
 
-            function ekleAra(no) {
-                const btn = document.createElement("a");
-                btn.className = "ep-btn";
-                btn.innerText = `🍃 Naruto ${no}. Bölüm`;
-                const query = encodeURIComponent(`Naruto ${no}. Bölüm Türkçe Dublaj Spacetoon`);
-                btn.href = `https://www.youtube.com/results?search_query=${query}`;
-                btn.target = "_blank";
-                container.appendChild(btn);
+            /* ==========================================================================
+               DİKEY LİSTELEME: TÜM İSTASYONLAR AÇIK VE SATIRLI
+               ========================================================================== */
+            
+            // --- Ders Grubu ---
+            olusturButon(
+                "☕ Lofi Hip Hop Radio - Beats to Study", 
+                "https://www.youtube.com/embed/jfKfPfyJRdk", 
+                focusContainer
+            );
+
+            olusturButon(
+                "✍️ Chill Lofi Beats - Code & Study", 
+                "https://www.youtube.com/embed/rPjez8z6098", 
+                focusContainer
+            );
+
+            olusturButon(
+                "🎹 Calm Piano Lofi - Intense Focus", 
+                "https://www.youtube.com/embed/4xDzrJKXOOY", 
+                focusContainer
+            );
+
+            olusturButon(
+                "🍃 Coffee Shop Ambient - Soft Music", 
+                "https://www.youtube.com/embed/v7snX_bIdp0", 
+                focusContainer
+            );
+
+            olusturButon(
+                "📚 Deep Focus - Alpha Waves", 
+                "https://www.youtube.com/embed/2atQ_Xw4Z88", 
+                focusContainer
+            );
+
+            olusturButon(
+                "📝 Jazz Study Station - Calm Saxophone", 
+                "https://www.youtube.com/embed/jfKfPfyJRdk", 
+                focusContainer
+            );
+
+            olusturButon(
+                "🔋 Minimal Techno for Coding - Fast Pace", 
+                "https://www.youtube.com/embed/rPjez8z6098", 
+                focusContainer
+            );
+
+            // --- Rahatlama Grubu ---
+            olusturButon(
+                "🌌 Synthwave Radio - Retro Beats", 
+                "https://www.youtube.com/embed/4xDzrJKXOOY", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "🌧️ Rainy Night Lofi - Sleep & Chill", 
+                "https://www.youtube.com/embed/tZcoY_r3N94", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "🕯️ Cozy Bedroom Ambient - Relax", 
+                "https://www.youtube.com/embed/M5QY2_8704o", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "✨ Deep Space Soundscapes - Ambient", 
+                "https://www.youtube.com/embed/2atQ_Xw4Z88", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "🌊 Ocean Waves - Natural Background", 
+                "https://www.youtube.com/embed/v7snX_bIdp0", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "🗼 Tokyo Midnight Ride - Chill Vaporwave", 
+                "https://www.youtube.com/embed/tZcoY_r3N94", 
+                relaxContainer
+            );
+
+            olusturButon(
+                "🔮 Ethereal Meditation - Healing Frequencies", 
+                "https://www.youtube.com/embed/M5QY2_8704o", 
+                relaxContainer
+            );
+
+
+            /* ==========================================================================
+               POMODORO MOTORU VE DİKEY REGLAJ KONTROLLERİ
+               ========================================================================== */
+            let countdown;
+            let timerSeconds = 1500;
+            let isRunning = false;
+
+            // Zaman Göstergesini Hesaplama Fonksiyonu
+            function ekranaYaz() {
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                
+                let displayMinutes = minutes;
+                if (minutes < 10) {
+                    displayMinutes = "0" + minutes;
+                }
+                
+                let displaySeconds = seconds;
+                if (seconds < 10) {
+                    displaySeconds = "0" + seconds;
+                }
+                
+                timeDisplay.innerText = displayMinutes + ":" + displaySeconds;
             }
 
-            // MAX SATIR İÇİN TÜM BÖLÜMLERİN TEK TEK LİSTELENMESİ (Dikey Blok)
-            ekleResmi(1, "https://www.youtube.com/embed/gflNi1ta0Jk");
-            ekleResmi(2, "https://www.youtube.com/embed/d5iUhz89iaE");
-            ekleAra(3);
-            ekleAra(4);
-            ekleAra(5);
-            ekleAra(6);
-            ekleAra(7);
-            ekleAra(8);
-            ekleAra(9);
-            ekleAra(10);
-            ekleAra(11);
-            ekleAra(12);
-            ekleAra(13);
-            ekleAra(14);
-            ekleAra(15);
-            ekleAra(16);
-            ekleAra(17);
-            ekleAra(18);
-            ekleAra(19);
-            ekleAra(20);
-            ekleAra(21);
-            ekleAra(22);
-            ekleAra(23);
-            ekleAra(24);
-            ekleAra(25);
-            ekleAra(26);
-            ekleAra(27);
-            ekleAra(28);
-            ekleAra(29);
-            ekleAra(30);
-            ekleAra(31);
-            ekleAra(32);
-            ekleAra(33);
-            ekleAra(34);
-            ekleAra(35);
-            ekleAra(36);
-            ekleAra(37);
-            ekleAra(38);
-            ekleAra(39);
-            ekleAra(40);
-            ekleAra(41);
-            ekleAra(42);
-            ekleAra(43);
-            ekleAra(44);
-            ekleAra(45);
-            ekleAra(46);
-            ekleAra(47);
-            ekleAra(48);
-            ekleAra(49);
-            ekleAra(50);
-            ekleAra(51);
-            ekleAra(52);
-            ekleAra(53);
-            ekleAra(54);
-            ekleAra(55);
-            ekleAra(56);
-            ekleAra(57);
-            ekleAra(58);
-            ekleAra(59);
-            ekleAra(60);
-            ekleAra(61);
-            ekleAra(62);
-            ekleAra(63);
-            ekleAra(64);
-            ekleAra(65);
-            ekleAra(66);
-            ekleAra(67);
-            ekleAra(68);
-            ekleAra(69);
-            ekleAra(70);
-            ekleAra(71);
-            ekleAra(72);
-            ekleAra(73);
-            ekleAra(74);
-            ekleAra(75);
-            ekleAra(76);
-            ekleAra(77);
-            ekleAra(78);
-            ekleAra(79);
-            ekleAra(80);
-            ekleAra(81);
-            ekleAra(82);
-            ekleAra(83);
-            ekleAra(84);
-            ekleAra(85);
-            ekleAra(86);
-            ekleAra(87);
-            ekleAra(88);
-            ekleAra(89);
-            ekleAra(90);
-            ekleAra(91);
-            ekleAra(92);
-            ekleAra(93);
-            ekleAra(94);
-            ekleAra(95);
-            ekleAra(96);
-            ekleAra(97);
-            ekleAra(98);
-            ekleAra(99);
-            ekleAra(100);
-            ekleAra(101);
-            ekleAra(102);
-            ekleAra(103);
-            ekleAra(104);
-            ekleAra(105);
-            ekleAra(106);
-            ekleAra(107);
-            ekleAra(108);
-            ekleAra(109);
-            ekleAra(110);
-            ekleAra(111);
-            ekleAra(112);
-            ekleAra(113);
-            ekleAra(114);
-            ekleAra(115);
-            ekleAra(116);
-            ekleAra(117);
-            ekleAra(118);
-            ekleAra(119);
-            ekleAra(120);
-            ekleAra(121);
-            ekleAra(122);
-            ekleAra(123);
-            ekleAra(124);
-            ekleAra(125);
-            ekleAra(126);
-            ekleAra(127);
-            ekleAra(128);
-            ekleAra(129);
-            ekleAra(130);
-            ekleAra(131);
-            ekleAra(132);
-            ekleAra(133);
-            ekleAra(134);
-            ekleAra(135);
-            ekleAra(136);
-            ekleAra(137);
-            ekleAra(138);
-            ekleAra(139);
-            ekleAra(140);
-            ekleAra(141);
-            ekleAra(142);
-            ekleAra(143);
-            ekleAra(144);
-            ekleAra(145);
-            ekleAra(146);
-            ekleAra(147);
-            ekleAra(148);
-            ekleAra(149);
-            ekleAra(150);
-            ekleAra(151);
-            ekleAra(152);
-            ekleAra(153);
-            ekleAra(154);
-            ekleAra(155);
-            ekleAra(156);
-            ekleAra(157);
-            ekleAra(158);
-            ekleAra(159);
-            ekleAra(160);
-            ekleAra(161);
-            ekleAra(162);
-            ekleAra(163);
-            ekleAra(164);
-            ekleAra(165);
-            ekleAra(166);
-            ekleAra(167);
-            ekleAra(168);
-            ekleAra(169);
-            ekleAra(170);
-            ekleAra(171);
-            ekleAra(172);
-            ekleAra(173);
-            ekleAra(174);
-            ekleAra(175);
-            ekleAra(176);
-            ekleAra(177);
-            ekleAra(178);
-            ekleAra(179);
-            ekleAra(180);
-            ekleAra(181);
-            ekleAra(182);
-            ekleAra(183);
-            ekleAra(184);
-            ekleAra(185);
-            ekleAra(186);
-            ekleAra(187);
-            ekleAra(188);
-            ekleAra(189);
-            ekleAra(190);
-            ekleAra(191);
-            ekleAra(192);
-            ekleAra(193);
-            ekleAra(194);
-            ekleAra(195);
-            ekleAra(196);
-            ekleAra(197);
-            ekleAra(198);
-            ekleAra(199);
-            ekleAra(200);
-            ekleAra(201);
-            ekleAra(202);
-            ekleAra(203);
-            ekleAra(204);
-            ekleAra(205);
-            ekleAra(206);
-            ekleAra(207);
-            ekleAra(208);
-            ekleAra(209);
-            ekleAra(210);
-            ekleAra(211);
-            ekleAra(212);
-            ekleAra(213);
-            ekleAra(214);
-            ekleAra(215);
-            ekleAra(216);
-            ekleAra(217);
-            ekleAra(218);
-            ekleAra(219);
-            ekleAra(220);
+            // Sayacı Başlatan Çark
+            function sayaciBaslat() {
+                if (isRunning) {
+                    return;
+                }
+                
+                isRunning = true;
+                
+                countdown = setInterval(() => {
+                    if (timerSeconds <= 0) {
+                        clearInterval(countdown);
+                        isRunning = false;
+                        alert("Süre doldu! Kısa bir mola zamanı.");
+                        timerSeconds = 1500;
+                        ekranaYaz();
+                        return;
+                    }
+                    
+                    timerSeconds--;
+                    ekranaYaz();
+                }, 1000);
+            }
+
+            // Sayacı Durduran Çark
+            function sayaciDurdur() {
+                clearInterval(countdown);
+                isRunning = false;
+            }
+
+            // Sayacı Sıfırlayan Çark
+            function sayaciSifirla() {
+                clearInterval(countdown);
+                isRunning = false;
+                timerSeconds = 1500;
+                ekranaYaz();
+            }
+
+            // Olay Tetikleyicileri
+            startBtn.addEventListener("click", () => {
+                sayaciBaslat();
+            });
+
+            pauseBtn.addEventListener("click", () => {
+                sayaciDurdur();
+            });
+
+            resetBtn.addEventListener("click", () => {
+                sayaciSifirla();
+            });
+            
+            // İlk Açılış Çalıştırması
+            ekranaYaz();
         });
     </script>
 </body>
