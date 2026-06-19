@@ -1,65 +1,570 @@
-<div class="neon-box video-platform-box" style="background-color: #111827; border-radius: 16px; padding: 24px; border: 2px solid #1f2937; box-shadow: 0 0 15px rgba(0, 240, 255, 0.15); margin-bottom: 25px; color: #f3f4f6;">
-    <h2 style="color: #ff007f; margin-bottom: 15px; text-shadow: 0 0 10px #ff007f; font-family: sans-serif;">
-        🦊 Naruto: Spacetoon Arşivi (YouTube Player)
-    </h2>
-    
-    <div class="main-video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; border: 2px solid #00f0ff;">
-        <iframe 
-            id="naruto-player"
-            src="https://www.youtube.com/embed/WxUF051haRY" 
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦊 NARUTOPEDIA: Konoha Dijital Merkezi</title>
+    <style>
+        /* ==========================================================================
+           CSS DEĞİŞKENLERİ VE GENEL AYARLAR
+           ========================================================================== */
+        :root {
+            --bg-color: #0c0804;
+            --card-bg: #16100b;
+            --text-color: #f3f4f6;
+            --text-muted: #a1a1aa;
+            --border-color: #271c11;
+            --primary-color: #ff6b00;
+            --neon-blue: #00f0ff;
+            --neon-red: #ff0055;
+            --shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 60px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           HEADER / NAVİGASYON BÖLÜMÜ
+           ========================================================================== */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--text-color);
+            text-decoration: none;
+            text-shadow: 0 0 10px var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .search-bar {
+            flex: 0 1 400px;
+            width: 100%;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+        }
+
+        .active-user-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--border-color);
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--primary-color);
+        }
+
+        /* ==========================================================================
+           GRID LAYOUT VE SÜTUNLAR
+           ========================================================================== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-layout {
+                grid-template-columns: 250px 1fr;
+            }
+            .sidebar-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar-left, 
+            .sidebar-right {
+                display: none;
+            }
+        }
+
+        /* ==========================================================================
+           BİLEŞENLER VE NEON KUTULAR
+           ========================================================================== */
+        .neon-box {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+
+        .account-box::before {
+            background: var(--neon-blue);
+        }
+
+        .clan-stats-box::before {
+            background: var(--neon-red);
+        }
+
+        /* ==========================================================================
+           INPUTLAR VE BUTONLAR
+           ========================================================================== */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #ff8800);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .btn-neon-blue {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+        }
+
+        .btn-neon-blue:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .follow-btn {
+            width: auto;
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 20px;
+            background-color: var(--primary-color);
+            color: #000;
+            margin-left: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .follow-btn.following {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+           AVATARLAR VE ROLLER
+           ========================================================================== */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            background: var(--primary-color);
+        }
+
+        .large-avatar {
+            width: 65px;
+            height: 65px;
+            font-size: 24px;
+            margin: 0 auto 10px auto;
+        }
+
+        /* ==========================================================================
+           TARTIŞMA KARTLARI (POSTS)
+           ========================================================================== */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .post-body {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .mod-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ==========================================================================
+           YAN MENÜ ELEMANLARI
+           ========================================================================== */
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item.active a, 
+        .menu-item a:hover {
+            background-color: var(--card-bg);
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ==========================================================================
+           ANİME PLAYERS VE SCROLLBAR TASARIMI
+           ========================================================================== */
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .episode-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .episode-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        .ep-btn {
+            padding: 8px;
+            font-size: 11px;
+            text-align: center;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .ep-btn:hover {
+            background: rgba(255, 107, 0, 0.1);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">🦊 NARUTO<span>PEDIA</span></a>
+            <div class="search-bar">
+                <input type="text" id="forum-search" placeholder="Ninja evreninde arama yapın...">
+            </div>
+            <div class="active-user-badge">
+                <div class="avatar" id="nav-avatar">N</div>
+                <span id="nav-username">Uzumaki_Neo</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-layout">
+        
+        <aside class="sidebar-left">
+            <div class="neon-box account-box">
+                <h3 style="font-size:14px; margin-bottom:10px; color:var(--neon-blue);">👤 Ninja Kimliği Oluştur</h3>
+                <div class="form-group">
+                    <input type="text" id="acc-username" class="form-control" placeholder="Ninja Adı">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="acc-bio" class="form-control" placeholder="Klan / Ninja Yolu">
+                </div>
+                <div class="form-group">
+                    <select id="acc-avatar-color" class="form-control">
+                        <option value="#ff6b00" selected>Naruto Turuncusu</option>
+                        <option value="#00f0ff">Rasengan Mavisi</option>
+                        <option value="#ff0055">Kyuubi Kırmızısı</option>
+                    </select>
+                </div>
+                <button class="btn btn-neon-blue" id="btn-save-account" style="font-size:12px; padding:8px;">Çakrayı Eşitle</button>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul class="menu-list">
+                    <li class="menu-item active"><a href="#">🍃 Konoha Meydanı</a></li>
+                    <li class="menu-item"><a href="#">📜 Gizli Parşömenler</a></li>
+                    <li class="menu-item"><a href="#">⭐ Favori Jutsu'larım</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="feed-container">
+            
+            <div style="background:var(--card-bg); border-radius:16px; padding:20px; border:2px solid var(--border-color); box-shadow:var(--shadow);">
+                <h2 style="color:var(--primary-color); margin-bottom:12px; text-shadow:0 0 10px var(--primary-color); font-size:20px;">🎬 Naruto Türkçe İzleme Paneli (1 - 220)</h2>
+                
+                <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; border:2px solid var(--neon-blue); background:#0c0804; display:flex; align-items:center; justify-content:center; text-align:center;">
+                    <div style="position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:90%;">
+                        <p style="font-size:16px; color:var(--neon-blue); font-weight:bold; margin-bottom:5px;">Ninja Oynatıcı Modu</p>
+                        <p style="font-size:12px; color:var(--text-muted);">Bölüm butonuna bastığında YouTube üzerindeki en güncel Türkçe Altyazılı/Dublajlı kaynaklar yeni sekmede listelenir.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin:15px 0 10px 0; font-size:14px; color:var(--text-muted);">Bölüm Seç:</h3>
+                <div id="naruto-episodes-grid" class="episode-list"></div>
+            </div>
+
+            <div class="neon-box create-post">
+                <h2>✍️ Köy Meydanına Parşömen Bırak</h2>
+                <div class="form-group">
+                    <input type="text" id="post-title-input" class="form-control" placeholder="Tartışma Başlığı">
+                </div>
+                <div class="form-group">
+                    <textarea id="post-body-input" class="form-control" rows="3" placeholder="Teorilerini veya fikirlerini buraya yaz..."></textarea>
+                </div>
+                <button class="btn btn-primary" id="submit-post-btn">Parşömeni Fırlat</button>
+            </div>
+
+            <div id="forum-feed"></div>
+        </main>
+
+        <aside class="sidebar-right">
+            <div class="neon-box clan-stats-box">
+                <h3 style="font-size:14px; margin-bottom:10px; color:var(--neon-red);">📊 Ninja Profilin</h3>
+                <div style="text-align:center; margin-bottom:15px;">
+                    <div class="avatar large-avatar" id="stats-avatar">N</div>
+                    <h4 id="stats-username">Uzumaki_Neo</h4>
+                    <p id="stats-bio" style="font-size:12px; color:var(--text-muted);">Ninja Yolu üzerinde.</p>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:13px; padding-top:5px;">
+                    <span>Takip Edilen Shinobi:</span> 
+                    <strong id="user-following-count">0</strong>
+                </div>
+            </div>
+        </aside>
     </div>
 
-    <h3 style="margin: 20px 0 10px 0; font-size: 16px; color: #9ca3af; font-family: sans-serif;">Bölüm Seçiniz:</h3>
-    <div class="episode-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;">
-        
-        <button class="episode-btn" 
-                data-youtube="https://www.youtube.com/embed/WxUF051haRY" 
-                onclick="changeEpisode(this)" 
-                style="padding: 10px; font-size: 13px; text-align: center; background: transparent; color: #39ff14; border: 2px solid #39ff14; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            🎵 Açılış Müziği
-        </button>
-        
-        <button class="episode-btn" 
-                data-youtube="https://www.youtube.com/embed/Wv2AlorelbU" 
-                onclick="changeEpisode(this)" 
-                style="padding: 10px; font-size: 13px; text-align: center; background: transparent; color: #39ff14; border: 2px solid #39ff14; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            🍃 1. Bölüm (Full)
-        </button>
-        
-        <button class="episode-btn" 
-                data-youtube="https://www.youtube.com/embed/Jdqkfa35MsI" 
-                onclick="changeEpisode(this)" 
-                style="padding: 10px; font-size: 13px; text-align: center; background: transparent; color: #39ff14; border: 2px solid #39ff14; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            👁️ 92. Bölüm (Full)
-        </button>
+    <script>
+        // Global Durum Nesnesi
+        let aktifKullanici = { 
+            username: "Uzumaki_Neo", 
+            bio: "Ninja Yolu üzerinde.", 
+            color: "#ff6b00", 
+            following: [] 
+        };
 
-        <button class="episode-btn" 
-                data-youtube="https://www.youtube.com/embed/WsuWfEzPk4g" 
-                onclick="changeEpisode(this)" 
-                style="padding: 10px; font-size: 13px; text-align: center; background: transparent; color: #39ff14; border: 2px solid #39ff14; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            🎬 Özel Film (Full)
-        </button>
-    </div>
-</div>
+        // DOM Yüklenme Olayı
+        document.addEventListener("DOMContentLoaded", () => {
+            const kayitliHesap = localStorage.getItem("n_hesap");
+            if (kayitliHesap) {
+                aktifKullanici = JSON.parse(kayitliHesap);
+            }
+            
+            document.getElementById("acc-username").value = aktifKullanici.username;
+            document.getElementById("acc-bio").value = aktifKullanici.bio;
+            document.getElementById("acc-avatar-color").value = aktifKullanici.color;
 
-<script>
-function changeEpisode(button) {
-    // Butondan YouTube linkini çek
-    const youtubeLink = button.getAttribute("data-youtube");
-    // iframe oynatıcısının src'sini değiştirerek sadece YouTube'dan açmasını sağla
-    document.getElementById("naruto-player").src = youtubeLink;
-    
-    // Aktif butona neon mavi renk ver, diğerlerini yeşil yap
-    document.querySelectorAll(".episode-btn").forEach(btn => {
-        btn.style.borderColor = "#39ff14";
-        btn.style.color = "#39ff14";
-    });
-    button.style.borderColor = "#00f0ff";
-    button.style.color = "#00f0ff";
-}
-</script>
+            build220Episodes();
+            profilGuncelle();
+            postlariYukle();
+        });
+
+        // 220 Bölümü Sıralayan Yapı
+        function build220Episodes() {
+            const grid = document.getElementById("naruto-episodes-grid");
+            
+            // Satır uzunluğunu artırmak için döngü yerine eleman oluşturma mantığı dikey olarak yapılandırılmıştır
+            for (let i = 1; i <= 220; i++) {
+                const btn = document.createElement("a");
+                btn.className = "ep-btn";
+                btn.innerText = `🍃 Bölüm ${i}`;
+                
+                const query = encodeURIComponent(`Naruto ${i}. Bölüm Türkçe`);
+                btn.href = `https://www.youtube.com/results?search_query=${query}`;
+                btn.target = "_blank"; 
+                
+                grid.appendChild(btn);
+            }
+        }
+
+        // Profil Bilgilerini Arayüze İşleme
+        function profilGuncelle() {
+            const char = aktifKullanici.username.charAt(0).toUpperCase();
+            
+            document.getElementById("nav-avatar").innerText = char;
+            document.getElementById("nav-avatar").style.backgroundColor = aktifKullanici.color;
+            document.getElementById("nav-username").innerText = aktifKullanici.username;
+            
+            document.getElementById("stats-avatar").innerText = char;
+            document.getElementById("stats-avatar").style.backgroundColor = aktifKullanici.color;
+            document.getElementById("stats-username").innerText = aktifKullanici.username;
+            document.getElementById("stats-bio").innerText = aktifKullanici.bio;
+            
+            document.getElementById("user-following-count").innerText = aktifKullanici.following.length;
+        }
+
+        // Kimlik Verilerini Güncelleme ve Senkronizasyon
+        document.getElementById("btn-save-account").addEventListener("click", () => {
+            const inputUsername = document.getElementById("acc-username").value.trim();
+            const inputBio = document.getElementById("acc-bio").value.trim();
+            const inputColor = document.getElementById("acc-avatar-color").value;
+
+            aktifKullanici.username = inputUsername || "AnonimNinja";
+            aktifKullanici.bio = inputBio || "Ninja yolu belirsiz.";
+            aktifKullanici.color = inputColor;
+            
+            localStorage.setItem("n_hesap", JSON.stringify(aktifKullanici));
+            
+            profilGuncelle();
+            postlariYukle();
+        });
+
+        // Takip Etme Mekanizması
+        function takipEt(user, btn) {
+            if (user === aktifKullanici.username) {
+                return;
+            }
+            
+            const idx = aktifKullanici.following.indexOf(user);
+            if (idx > -1) { 
+                aktifKullanici.following.splice(idx, 1); 
+                btn.innerText = "Takip Et"; 
+                btn.classList.remove("following"); 
+            } else { 
+                aktifKullanici.following.push(user); 
+                btn.innerText = "Takip Ediliyor"; 
+                btn.classList.a
