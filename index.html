@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song Station - Handcrafted Soundboard</title>
+    <title>Song Station - Ultimate Focus Hub</title>
     <style>
         /* ==========================================================================
-           EL EMEĞİ MİNİMALİST KARANLIK TEMELLİ CSS MİMARİSİ
+           HANDCRAFTED MINIMALIST DARK THEME STYLE SHEETS (CSS)
            ========================================================================== */
         * {
             margin: 0;
@@ -29,9 +29,9 @@
             padding: 20px;
         }
 
-        /* ANA İSTASYON GÖVDESİ */
+        /* FLEXIBLE RESPONSIVE GRID GRID SYSTEM */
         .station-container {
-            max-width: 1050px;
+            max-width: 1200px;
             width: 100%;
             background-color: #0f0f11;
             border-radius: 16px;
@@ -39,17 +39,45 @@
             border: 1px solid #1a1a1e;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: 1fr 380px;
             gap: 30px;
         }
 
-        @media (max-width: 850px) {
+        /* RESPONSIVE LAYOUT ADJUSTMENTS FOR LAPTOPS AND TABLETS */
+        @media (max-width: 1024px) {
             .station-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 340px;
+                gap: 20px;
+                padding: 20px;
             }
         }
 
-        /* SOL PANEL DÜZENİ */
+        /* RESPONSIVE LAYOUT ADJUSTMENTS FOR PORTRAIT TABLETS & SMARTPHONES */
+        @media (max-width: 850px) {
+            .station-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 15px;
+            }
+        }
+
+        /* RESPONSIVE LAYOUT ADJUSTMENTS FOR SMALL MOBILE DEVICES */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .station-container {
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .main-panel h1 {
+                font-size: 16px !important;
+            }
+            .timer-display {
+                font-size: 32px !important;
+            }
+        }
+
         .main-panel {
             display: flex;
             flex-direction: column;
@@ -63,7 +91,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* VİDEO ÇERÇEVESİ */
+        /* FLUID VIDEO COMPONENT MATRIX */
         .player-area {
             position: relative;
             padding-bottom: 56.25%;
@@ -82,7 +110,6 @@
             height: 100%;
         }
 
-        /* SAYAÇ KUTUSU */
         .timer-box {
             background-color: #050505;
             border: 1px solid #1a1a1e;
@@ -105,6 +132,8 @@
         .timer-controls {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .timer-btn {
@@ -124,7 +153,6 @@
             color: #00ff66;
         }
 
-        /* SAĞ PANEL DÜZENİ */
         .sidebar-panel {
             display: flex;
             flex-direction: column;
@@ -144,42 +172,49 @@
             padding-bottom: 10px;
         }
 
-        .category-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
         .category-title {
             font-size: 11px;
             font-weight: 700;
             color: #555;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            padding-left: 2px;
         }
 
-        .music-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 480px;
+        .music-list-wrapper {
+            max-height: 580px;
             overflow-y: auto;
             padding-right: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .music-list::-webkit-scrollbar {
+        @media (max-width: 850px) {
+            .music-list-wrapper {
+                max-height: 400px;
+            }
+        }
+
+        .music-list-wrapper::-webkit-scrollbar {
             width: 3px;
         }
 
-        .music-list::-webkit-scrollbar-thumb {
+        .music-list-wrapper::-webkit-scrollbar-thumb {
             background: #222;
             border-radius: 2px;
         }
 
-        /* İNSAN TASARIMI BUTONLAR */
-        .stream-btn {
-            display: block;
+        .channel-row {
+            display: flex;
+            gap: 5px;
             width: 100%;
+        }
+
+        .stream-btn {
+            flex: 1;
             padding: 12px 15px;
             background-color: #0f0f11;
             color: #a0a0a0;
@@ -190,12 +225,35 @@
             border: 1px solid transparent;
             transition: all 0.2s ease;
             cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .stream-btn:hover {
             background-color: #1a1a1e;
             color: #00ff66;
             border-color: #00ff66;
+        }
+
+        .external-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            background-color: #0f0f11;
+            color: #444;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .external-link-btn:hover {
+            color: #ff3333;
+            background-color: #1a1a1e;
+            border-color: #ff3333;
         }
     </style>
 </head>
@@ -204,12 +262,12 @@
     <div class="station-container">
         
         <div class="main-panel">
-            <h1 id="stream-title">Song Station: Lofi Hip Hop Radio (7/24 Canlı)</h1>
+            <h1 id="stream-title">Song Station: 📚 Lofi Study Beats (Classic)</h1>
             
             <div class="player-area">
                 <iframe 
                     id="audio-player" 
-                    src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1" 
+                    src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1" 
                     allow="autoplay; encrypted-media" 
                     allowfullscreen>
                 </iframe>
@@ -219,9 +277,9 @@
                 <div class="timer-display" id="time-left">25:00</div>
                 <div style="font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1px;">Focus Timer</div>
                 <div class="timer-controls">
-                    <button class="timer-btn" id="start-btn">Başlat</button>
-                    <button class="timer-btn" id="pause-btn">Durdur</button>
-                    <button class="timer-btn" id="reset-btn">Sıfırla</button>
+                    <button class="timer-btn" id="start-btn">Start</button>
+                    <button class="timer-btn" id="pause-btn">Pause</button>
+                    <button class="timer-btn" id="reset-btn">Reset</button>
                 </div>
             </div>
         </div>
@@ -229,15 +287,8 @@
         <div class="sidebar-panel">
             <h2>Song Station</h2>
             
-            <div class="category-group">
-                <div class="category-title">📚 Ders & Odaklanma</div>
-                <div id="focus-channels" class="music-list"></div>
-            </div>
-
-            <div class="category-group" style="margin-top: 15px;">
-                <div class="category-title">🌌 Gece & Rahatlama</div>
-                <div id="relax-channels" class="music-list"></div>
-            </div>
+            <div id="dynamic-categories" class="music-list-wrapper">
+                </div>
         </div>
 
     </div>
@@ -245,34 +296,49 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             
-            // DOM Elemanlarının İnsan Gücüyle Tek Tek Yakalanması
             const player = document.getElementById("audio-player");
             const title = document.getElementById("stream-title");
-            const focusContainer = document.getElementById("focus-channels");
-            const relaxContainer = document.getElementById("relax-channels");
+            const categoriesContainer = document.getElementById("dynamic-categories");
+            
             const timeDisplay = document.getElementById("time-left");
             const startBtn = document.getElementById("start-btn");
             const pauseBtn = document.getElementById("pause-btn");
             const resetBtn = document.getElementById("reset-btn");
 
-            // Sıfırdan İnşa Edilen Buton Oluşturma Şablonu
-            function olusturButon(isim, url, hedefKonteynir) {
+            // Category title header rendering block
+            function addCategoryHeader(categoryName) {
+                const t = document.createElement("div");
+                t.className = "category-title";
+                t.innerText = categoryName;
+                categoriesContainer.appendChild(t);
+            }
+
+            // Handcrafted Button Core Engine
+            function buildStationButton(stationName, youtubeId) {
+                const row = document.createElement("div");
+                row.className = "channel-row";
+
                 const btn = document.createElement("button");
                 btn.className = "stream-btn";
-                btn.innerText = isim;
+                btn.innerText = stationName;
+
+                const extLink = document.createElement("a");
+                extLink.className = "external-link-btn";
+                extLink.innerHTML = "↗";
+                extLink.href = "https://www.youtube.com/watch?v=" + youtubeId;
+                extLink.target = "_blank";
                 
-                // Tıklama Olayları - Dikey Blok Olarak Ayrıştırıldı
                 btn.addEventListener("click", () => {
-                    player.src = url + "?autoplay=1";
+                    player.src = "https://www.youtube.com/embed/" + youtubeId + "?autoplay=1";
                 });
                 
                 btn.addEventListener("click", () => {
-                    title.innerText = `Song Station: ${isim}`;
+                    title.innerText = `Song Station: ${stationName}`;
                 });
                 
                 btn.addEventListener("click", () => {
-                    const tumButonlar = document.querySelectorAll(".stream-btn");
-                    tumButonlar.forEach(b => {
+                    const allButtons = document.querySelectorAll(".stream-btn");
+                    allButtons.forEach(b => {
                         b.style.borderColor = "transparent";
                     });
                 });
@@ -281,109 +347,72 @@
                     btn.style.borderColor = "#00ff66";
                 });
 
-                hedefKonteynir.appendChild(btn);
+                row.appendChild(btn);
+                row.appendChild(extLink);
+                categoriesContainer.appendChild(row);
             }
 
             /* ==========================================================================
-               DİKEY LİSTELEME: TÜM İSTASYONLAR AÇIK VE SATIRLI
+               FULL MAXIMUM EXTENDED CATEGORIES DIRECTORY (VERTICAL ENTRIES)
                ========================================================================== */
             
-            // --- Ders Grubu ---
-            olusturButon(
-                "☕ Lofi Hip Hop Radio - Beats to Study", 
-                "https://www.youtube.com/embed/jfKfPfyJRdk", 
-                focusContainer
-            );
+            // --- CATEGORY 1 ---
+            addCategoryHeader("📚 Lofi & Academic Study");
+            buildStationButton("☕ Lofi Study Beats (Classic)", "5qap5aO4i9A");
+            buildStationButton("✍️ Coding Chill Session", "9FvvbVI5rRE");
+            buildStationButton("🎹 Calm Piano Lofi Relax", "4xDzrJKXOOY");
+            buildStationButton("🍃 Coffee Shop Background", "v7snX_bIdp0");
+            buildStationButton("📖 Vintage Library Vibe", "CHFif_y2TyM");
+            buildStationButton("🎒 Late Night Homework", "tZcoY_r3N94");
+            buildStationButton("📝 Soft Rain & Study Lofi", "mPZkdNFkNps");
+            buildStationButton("🛹 Sunset Skate Lofi Chill", "jfKfPfyJRdk");
+            buildStationButton("🥐 Parisian Cafe Accordion", "L_LUpnjgPso");
 
-            olusturButon(
-                "✍️ Chill Lofi Beats - Code & Study", 
-                "https://www.youtube.com/embed/rPjez8z6098", 
-                focusContainer
-            );
+            // --- CATEGORY 2 ---
+            addCategoryHeader("🌌 Gaming & Focus (Synthwave)");
+            buildStationButton("🏎️ Synthwave Outrun Radio", "4xDzrJKXOOY");
+            buildStationButton("🌌 Neon Driving Beats", "tZcoY_r3N94");
+            buildStationButton("👾 Retro Gaming Focus", "M5QY2_8704o");
+            buildStationButton("🛸 Deep Space Arcade", "2atQ_Xw4Z88");
+            buildStationButton("🕹️ Cyberpunk Glitch Coding", "9FvvbVI5rRE");
+            buildStationButton("⚡ Dark Synthwave Horizon", "5qap5aO4i9A");
+            buildStationButton("🌃 Tokyo Highway Night Drive", "v7snX_bIdp0");
 
-            olusturButon(
-                "🎹 Calm Piano Lofi - Intense Focus", 
-                "https://www.youtube.com/embed/4xDzrJKXOOY", 
-                focusContainer
-            );
+            // --- CATEGORY 3 ---
+            addCategoryHeader("🌧️ Nature & Atmosphere Ambient");
+            buildStationButton("🌧️ Rain on Window (Soft)", "mPZkdNFkNps");
+            buildStationButton("⛈️ Thunderstorm Sleeping", "nMfPqeZjc2c");
+            buildStationButton("🌊 Calm Ocean Waves", "v7snX_bIdp0");
+            buildStationButton("🔥 Crackling Fireplace Cozy", "L_LUpnjgPso");
+            buildStationButton("🌲 Deep Forest Wind & Birds", "2atQ_Xw4Z88");
+            buildStationButton("🏔️ Blizzard Storm & Cabin Wind", "CHFif_y2TyM");
+            buildStationButton("🎋 Kyoto Bamboo Forest Rain", "9FvvbVI5rRE");
 
-            olusturButon(
-                "🍃 Coffee Shop Ambient - Soft Music", 
-                "https://www.youtube.com/embed/v7snX_bIdp0", 
-                focusContainer
-            );
+            // --- CATEGORY 4 ---
+            addCategoryHeader("🔮 Deep Focus Brainwaves");
+            buildStationButton("🧠 Alpha Waves (Intense Focus)", "WPni755-URM");
+            buildStationButton("✨ Binaural Beats Study", "2atQ_Xw4Z88");
+            buildStationButton("🧘 432Hz Healing Frequency", "M5QY2_8704o");
+            buildStationButton("🌌 Deep Gamma Brain Waves", "tZcoY_r3N94");
+            buildStationButton("🪐 Space Drone Meditation", "4xDzrJKXOOY");
 
-            olusturButon(
-                "📚 Deep Focus - Alpha Waves", 
-                "https://www.youtube.com/embed/2atQ_Xw4Z88", 
-                focusContainer
-            );
-
-            olusturButon(
-                "📝 Jazz Study Station - Calm Saxophone", 
-                "https://www.youtube.com/embed/jfKfPfyJRdk", 
-                focusContainer
-            );
-
-            olusturButon(
-                "🔋 Minimal Techno for Coding - Fast Pace", 
-                "https://www.youtube.com/embed/rPjez8z6098", 
-                focusContainer
-            );
-
-            // --- Rahatlama Grubu ---
-            olusturButon(
-                "🌌 Synthwave Radio - Retro Beats", 
-                "https://www.youtube.com/embed/4xDzrJKXOOY", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "🌧️ Rainy Night Lofi - Sleep & Chill", 
-                "https://www.youtube.com/embed/tZcoY_r3N94", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "🕯️ Cozy Bedroom Ambient - Relax", 
-                "https://www.youtube.com/embed/M5QY2_8704o", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "✨ Deep Space Soundscapes - Ambient", 
-                "https://www.youtube.com/embed/2atQ_Xw4Z88", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "🌊 Ocean Waves - Natural Background", 
-                "https://www.youtube.com/embed/v7snX_bIdp0", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "🗼 Tokyo Midnight Ride - Chill Vaporwave", 
-                "https://www.youtube.com/embed/tZcoY_r3N94", 
-                relaxContainer
-            );
-
-            olusturButon(
-                "🔮 Ethereal Meditation - Healing Frequencies", 
-                "https://www.youtube.com/embed/M5QY2_8704o", 
-                relaxContainer
-            );
+            // --- CATEGORY 5 ---
+            addCategoryHeader("🎷 Instrumental & Jazz & Classical");
+            buildStationButton("🎷 Midnight Jazz Lounge", "jfKfPfyJRdk");
+            buildStationButton("🎻 Classical Masterpieces", "rPjez8z6098");
+            buildStationButton("🎸 Acoustic Folk Guitar Vibe", "v7snX_bIdp0");
+            buildStationButton("🎺 Smooth Bossa Nova Sound", "5qap5aO4i9A");
+            buildStationButton("🌌 Dark Academia Cello", "CHFif_y2TyM");
 
 
-            /* ==========================================================================
-               POMODORO MOTORU VE DİKEY REGLAJ KONTROLLERİ
-               ========================================================================== */
+            // ==========================================================================
+            // POMODORO FOCUS TIMER SYSTEM MACHINERY
+            // ==========================================================================
             let countdown;
             let timerSeconds = 1500;
             let isRunning = false;
 
-            // Zaman Göstergesini Hesaplama Fonksiyonu
-            function ekranaYaz() {
+            function updateTimerDisplay() {
                 const minutes = Math.floor(timerSeconds / 60);
                 const seconds = timerSeconds % 60;
                 
@@ -400,58 +429,50 @@
                 timeDisplay.innerText = displayMinutes + ":" + displaySeconds;
             }
 
-            // Sayacı Başlatan Çark
-            function sayaciBaslat() {
+            function startTimer() {
                 if (isRunning) {
                     return;
                 }
-                
                 isRunning = true;
-                
                 countdown = setInterval(() => {
                     if (timerSeconds <= 0) {
                         clearInterval(countdown);
                         isRunning = false;
-                        alert("Süre doldu! Kısa bir mola zamanı.");
+                        alert("Time is up! Take a short break.");
                         timerSeconds = 1500;
-                        ekranaYaz();
+                        updateTimerDisplay();
                         return;
                     }
-                    
                     timerSeconds--;
-                    ekranaYaz();
+                    updateTimerDisplay();
                 }, 1000);
             }
 
-            // Sayacı Durduran Çark
-            function sayaciDurdur() {
+            function pauseTimer() {
                 clearInterval(countdown);
                 isRunning = false;
             }
 
-            // Sayacı Sıfırlayan Çark
-            function sayaciSifirla() {
+            function resetTimer() {
                 clearInterval(countdown);
                 isRunning = false;
                 timerSeconds = 1500;
-                ekranaYaz();
+                updateTimerDisplay();
             }
 
-            // Olay Tetikleyicileri
             startBtn.addEventListener("click", () => {
-                sayaciBaslat();
+                startTimer();
             });
 
             pauseBtn.addEventListener("click", () => {
-                sayaciDurdur();
+                pauseTimer();
             });
 
             resetBtn.addEventListener("click", () => {
-                sayaciSifirla();
+                resetTimer();
             });
             
-            // İlk Açılış Çalıştırması
-            ekranaYaz();
+            updateTimerDisplay();
         });
     </script>
 </body>
